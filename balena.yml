@@ -1,0 +1,25 @@
+name: otel-collector
+type: sw.block
+description: >-
+  OpenTelemetry Collector for device monitoring
+post-provisioning: >-
+  OpenTelemetry Collector for device monitoring
+assets:
+  repository:
+    type: blob.asset
+    data:
+      url: 'https://github.com/balena-io-experimental/otel-collector-block'
+  logo:
+    type: blob.asset
+    data:
+      url: >-
+        https://raw.githubusercontent.com/balena-io-experimental/otel-collector-block/master/logo.png
+data:
+  defaultDeviceType: raspberrypi4-64
+  supportedDeviceTypes:
+    - raspberrypi4-64
+    - fincm3
+    - raspberrypi3
+    - genericx86-64-ext
+    - intel-nuc
+version: 0.0.1

@@ -1,0 +1,27 @@
+FROM balenalib/%%BALENA_ARCH%%-ubuntu-golang:latest as builder
+
+# Generate otelcol builder -- the 'ocb' binary.
+WORKDIR /app
+RUN curl -LO https://github.com/open-telemetry/opentelemetry-collector/archive/refs/tags/v0.80.0.tar.gz
+RUN tar -zxvf v0.80.0.tar.gz
+
+WORKDIR /app/opentelemetry-collector-0.80.0
+RUN make ocb
+RUN cp /app/opentelemetry-collector-0.80.0/bin/ocb* /app/ocb
+
+# Configure with our custom manifest of receivers, exporters, etc.
+WORKDIR /app
+COPY manifest.yaml manifest.yaml
+RUN ocb --config manifest.yaml
+
+
+# Run the collector
+# Need certificate files?
+FROM busybox:stable
+WORKDIR /app
+COPY --from=builder /app/_build/otelcol /app
+COPY config.yaml /etc/otelcol/config.yaml
+ENTRYPOINT ["/app/otelcol"]
+CMD ["--config", "/etc/otelcol/config.yaml"]
+EXPOSE 4317 55678 55679
+
