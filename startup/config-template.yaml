@@ -1,0 +1,56 @@
+receivers:
+  # Collect own metrics
+  prometheus:
+    config:
+      scrape_configs:
+      - job_name: 'otel-collector'
+        scrape_interval: 60s
+        static_configs:
+        - targets: ['0.0.0.0:8888']
+      - job_name: 'integrations/node_exporter'
+        scrape_interval: 60s
+        static_configs:
+        - targets: ['localhost:9100']
+        relabel_configs:
+        - source_labels: [ instance ]
+          replacement: '${HOSTNAME}'
+          target_label: instance
+        - source_labels: [ instance ]
+          target_label: 'agent_hostname'
+          replacement: '${HOSTNAME}'
+  docker_stats:
+    endpoint: unix:///var/run/balena-engine.sock
+    collection_interval: 60s
+    timeout: 20s
+    api_version: 1.24
+    #container_labels_to_metric_labels:
+    #  my.container.label: my-metric-label
+    #  my.other.container.label: my-other-metric-label
+    #env_vars_to_metric_labels:
+    #  MY_ENVIRONMENT_VARIABLE: my-metric-label
+    #  MY_OTHER_ENVIRONMENT_VARIABLE: my-other-metric-label
+    #excluded_images:
+    #  - undesired-container
+    #  - /.*undesired.*/
+    #  - another-*-container
+    #metrics: 
+    #  container.cpu.usage.percpu:
+    #    enabled: true
+    #  container.network.io.usage.tx_dropped:
+    #    enabled: false
+processors:
+  batch:
+
+exporters:
+  prometheusremotewrite:
+    endpoint: https://${PROMETHEUS_USER}:${PROMETHEUS_PASSWORD}@${PROMETHEUS_URL}
+    # required for docker_stats
+    resource_to_telemetry_conversion: 
+      enabled: true
+
+service:
+  pipelines:
+    metrics:
+      receivers: [prometheus, docker_stats]
+      processors: [batch]
+      exporters: [prometheusremotewrite]

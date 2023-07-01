@@ -7,21 +7,27 @@ RUN tar -zxvf v0.80.0.tar.gz
 
 WORKDIR /app/opentelemetry-collector-0.80.0
 RUN make ocb
-RUN cp /app/opentelemetry-collector-0.80.0/bin/ocb* /app/ocb
-
-# Configure with our custom manifest of receivers, exporters, etc.
 WORKDIR /app
+# Generates the arch-specific portion of generated OTel collector builder binary
+# filename so we can use a single template.
+COPY builder/echo-ocb-archfile.sh /app
+RUN cp /app/opentelemetry-collector-0.80.0/bin/`./echo-ocb-archfile.sh %%BALENA_ARCH%%` /app/ocb
+
+# Generate the 'otelcol' collector binary with our custom manifest of receivers, exporters, etc.
 COPY manifest.yaml manifest.yaml
-RUN ocb --config manifest.yaml
+RUN ./ocb --config manifest.yaml
 
 
 # Run the collector
-# Need certificate files?
 FROM busybox:stable
 WORKDIR /app
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=builder /app/_build/otelcol /app
-COPY config.yaml /etc/otelcol/config.yaml
-ENTRYPOINT ["/app/otelcol"]
-CMD ["--config", "/etc/otelcol/config.yaml"]
+
+# First performs some required variable substitutions.
+COPY startup/config-template.yaml /app
+COPY startup/run.sh /app
+RUN chmod a+x run.sh
+CMD [ "/bin/ash", "run.sh" ]
 EXPOSE 4317 55678 55679
 
