@@ -23,21 +23,6 @@ receivers:
     collection_interval: 60s
     timeout: 20s
     api_version: 1.24
-    #container_labels_to_metric_labels:
-    #  my.container.label: my-metric-label
-    #  my.other.container.label: my-other-metric-label
-    #env_vars_to_metric_labels:
-    #  MY_ENVIRONMENT_VARIABLE: my-metric-label
-    #  MY_OTHER_ENVIRONMENT_VARIABLE: my-other-metric-label
-    #excluded_images:
-    #  - undesired-container
-    #  - /.*undesired.*/
-    #  - another-*-container
-    #metrics: 
-    #  container.cpu.usage.percpu:
-    #    enabled: true
-    #  container.network.io.usage.tx_dropped:
-    #    enabled: false
 processors:
   batch:
 

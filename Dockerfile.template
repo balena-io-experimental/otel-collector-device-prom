@@ -14,7 +14,7 @@ COPY builder/echo-ocb-archfile.sh /app
 RUN cp /app/opentelemetry-collector-0.80.0/bin/`./echo-ocb-archfile.sh %%BALENA_ARCH%%` /app/ocb
 
 # Build the 'otelcol' collector binary with our custom manifest of receivers, exporters, etc.
-COPY manifest.yaml manifest.yaml
+COPY builder/manifest.yaml manifest.yaml
 RUN ./ocb --config manifest.yaml
 
 
