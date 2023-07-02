@@ -1,0 +1,20 @@
+version: '2.1'
+services:
+  node-exporter:
+    # Prometheus node-exporter
+    image: prom/node-exporter
+    restart: always
+    network_mode: host
+    pid: host
+    labels:
+      io.balena.features.procfs: '1'
+      io.balena.features.sysfs: '1'
+  otel-collector:
+    # Open Telemetry collector, using Prometheus remote writer
+    build: ./otel-collector
+    restart: always
+    network_mode: host
+    labels:
+      io.balena.features.balena-socket: '1'
+      io.balena.features.procfs: '1'
+      io.balena.features.sysfs: '1'
