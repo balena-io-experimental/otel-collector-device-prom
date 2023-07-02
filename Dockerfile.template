@@ -1,6 +1,6 @@
 FROM balenalib/%%BALENA_ARCH%%-ubuntu-golang:latest as builder
 
-# Generate otelcol builder -- the 'ocb' binary.
+# Build the otelcol builder -- the 'ocb' binary.
 WORKDIR /app
 RUN curl -LO https://github.com/open-telemetry/opentelemetry-collector/archive/refs/tags/v0.80.0.tar.gz
 RUN tar -zxvf v0.80.0.tar.gz
@@ -13,7 +13,7 @@ WORKDIR /app
 COPY builder/echo-ocb-archfile.sh /app
 RUN cp /app/opentelemetry-collector-0.80.0/bin/`./echo-ocb-archfile.sh %%BALENA_ARCH%%` /app/ocb
 
-# Generate the 'otelcol' collector binary with our custom manifest of receivers, exporters, etc.
+# Build the 'otelcol' collector binary with our custom manifest of receivers, exporters, etc.
 COPY manifest.yaml manifest.yaml
 RUN ./ocb --config manifest.yaml
 

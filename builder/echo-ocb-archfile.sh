@@ -13,10 +13,7 @@ case "$1" in
     echo ${basename}amd64
     ;;
   "armv7hf" )
-    echo ${basename}armv7
-    ;;
-  "rpi" )
-    echo ${basename}armv6
+    echo ${basename}arm
     ;;
   * )
     echo unknown

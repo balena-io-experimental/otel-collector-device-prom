@@ -1,7 +1,7 @@
 #/bin/ash
 
 # Substitute environment variable values into configuration file. Use tab (0x09)
-# as delimiter since it likely won't appear in an environment variable.
+# as sed delimiter since it likely won't appear in an environment variable.
 TAB=$'\t'
 
 cp config-template.yaml config.yaml
