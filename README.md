@@ -5,9 +5,11 @@ There are two parts to getting started: setting up the Prometheus backend integr
 
 For Prometheus it's easy to create a free account at [Grafana Cloud](https://grafana.com/products/cloud/). Note the *team* name created for you is used in the URL for your Grafana account, like `https://grafana.com/orgs/{team}`, and in the URL for your cloud dashboards, like `https://{team}.grafana.net` .
 
-After registering, install the Linux Server integration ([instructions](https://grafana.com/docs/grafana-cloud/data-configuration/get-started-integration/)) for your cloud, which will create pre-configured dashboards based on Prometheus. On the setup page, *don't* install the agent. Instead, at the bottom of the page, select *Install* in the section *Install Dashboards and Alerts* ([screenshot](docs/install-linux-integration.png)). Then you can view your dashboards although they are not receiving data yet.
+After registering, install the Linux Server integration ([instructions](https://grafana.com/docs/otel-device-prom-collector/data-configuration/get-started-integration/)) for your cloud, which will create pre-configured dashboards based on Prometheus. On the setup page, *don't* install the agent. Instead, at the bottom of the page, select *Install* in the section *Install Dashboards and Alerts* ([screenshot](docs/install-linux-integration.png)). Then you can view your dashboards although they are not receiving data yet.
 
-Next, create a fleet for your devices in the balenaCloud dashboard. Set fleet [variables](https://docs.balena.io/learn/manage/variables/#fleet-wide-variables) for the Prometheus username, password, and remote write URL using the values from your Grafana Cloud Prometheus service page ([screenshot](docs/prometheus-config.png)). The service page is available from your Grafana account site (`grafana.com/orgs/{team}`), not the cloud dashboard.
+Next, create a docker-compose file with  *otel-collector* and *node-exporter* service entries that reference the block, like [this example](https://github.com/balena-io-experimental/otel-device-prom-collector/blob/master/docs/example). In balenaCloud dashboard, create a fleet for your devices, and [push](https://docs.balena.io/learn/deploy/deployment/#balena-push) that service composition to your fleet to generate a release.
+
+Finally, set fleet [variables](https://docs.balena.io/learn/manage/variables/#fleet-wide-variables) for the *otel-collector* service for Prometheus username, password, and remote write URL using the values from your Grafana Cloud Prometheus service page ([screenshot](docs/prometheus-config.png)). The service page is available from your Grafana account site (`grafana.com/orgs/{team}`), not the cloud dashboard.
 
 | Variable | Prometheus service page reference |
 | -------- | --------------------------------- |
@@ -15,8 +17,7 @@ Next, create a fleet for your devices in the balenaCloud dashboard. Set fleet [v
 | PROMETHEUS_USER | Username / Instance ID |
 | PROMETHEUS_PASSWORD | An API key you must create |
 
-Finally, create *otel-collector* and *node-exporter* service entries in your docker-compose that references the block, like [this example](https://github.com/balena-io-experimental/grafana-agent-block/blob/master/docs/example), and [push](https://docs.balena.io/learn/deploy/deployment/#balena-push) that service composition to your fleet.
 
-With this setup in place, you should see devices in your fleet also appear in the Grafana Cloud fleet overview dashboard, like below.
+With this setup in place, you now can add devices to your fleet. They will start to send metrics data to Grafana Cloud, which you may view in the fleet overview dashboard, like below.
 
 ![Example overview](docs/fleet-overview.png)

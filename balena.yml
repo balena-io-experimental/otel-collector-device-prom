@@ -9,9 +9,11 @@ post-provisioning: >-
 
   1. Create an account at [Grafana Cloud](https://grafana.com/products/cloud/), and set up a Linux Server integration.
 
-  2. Create a fleet, and set variables for the Prometheus remote write URL, username, and password used by the integration.
+  2. Create a docker-compose file with 'otel-collector' and 'node-exporter' service entries, like [this example](https://github.com/balena-io-experimental/otel-device-prom-collector/blob/master/docs/example).
 
-  3. Create 'otel-collector' and 'node-exporter' service entries in your docker-compose, like [this example](https://github.com/balena-io-experimental/otel-device-prom-collector/blob/master/docs/example)
+  3. Create a fleet in balenaCloud dashboard, and push the service composition to it.
+
+  4. Set fleet variables for the 'otel-collector' service for the Prometheus remote write URL, username, and password used by the integration.
 
 
   See the project [README](https://github.com/balena-io-experimental/otel-device-prom-collector#readme) for specifics.
@@ -33,4 +35,4 @@ data:
     - raspberrypi3
     - genericx86-64-ext
     - intel-nuc
-version: 0.1.0
+version: 0.1.1
