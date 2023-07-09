@@ -1,4 +1,6 @@
-OpenTelemetry [Collector](https://opentelemetry.io/docs/collector/) for device monitoring to a Prometheus backend, packaged as a [balenaBlock](https://docs.balena.io/learn/develop/blocks/#using-your-block-in-other-projects) per architecture ([aarch64](https://hub.balena.io/blocks/2059722/grafana-agent-aarch64), [amd64](https://hub.balena.io/blocks/2059725/grafana-agent-amd64), [armv7hf](https://hub.balena.io/blocks/2059724/grafana-agent-armv7hf)).
+OpenTelemetry [Collector](https://opentelemetry.io/docs/collector/) for device monitoring to a Prometheus backend, packaged as a [balenaBlock](https://docs.balena.io/learn/develop/blocks/#using-your-block-in-other-projects) per architecture ([aarch64](https://hub.balena.io/blocks/2068757/otel-collector-device-prom-aarch64), [amd64](https://hub.balena.io/blocks/2068764/otel-collector-device-prom-amd64), [armv7hf](https://hub.balena.io/blocks/2068759/otel-collector-device-prom-armv7hf)).
+
+![Node overview](docs/node-overview.png)
 
 ## Getting Started
 There are two parts to getting started: setting up the Prometheus backend integration, and configuring the collector for your fleet.
@@ -20,4 +22,9 @@ Finally, set fleet [variables](https://docs.balena.io/learn/manage/variables/#fl
 
 With this setup in place, you now can add devices to your fleet. They will start to send metrics data to Grafana Cloud, which you may view in the fleet overview dashboard, like below.
 
-![Example overview](docs/fleet-overview.png)
+![Fleet overview](docs/fleet-overview.png)
+
+## Container Metrics
+The collector also captures metrics for your application containers in balenaEngine. You can view these metrics in Grafana by importing a dashboard definition file in the `docs/dashboards` directory. The screenshot below is based on `containers.json`. See the Grafana [instructions](https://grafana.com/docs/grafana/latest/dashboards/manage-dashboards/#export-and-import-dashboards) for importing a dashboard.
+
+![Containers](docs/containers.png)
