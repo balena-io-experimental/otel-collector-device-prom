@@ -1,4 +1,4 @@
-name: otel-device-prom-collector
+name: otel-collector-device-prom
 type: sw.block
 description: >-
   OpenTelemetry Collector for device monitoring to a Prometheus backend
@@ -9,24 +9,24 @@ post-provisioning: >-
 
   1. Create an account at [Grafana Cloud](https://grafana.com/products/cloud/), and set up a Linux Server integration.
 
-  2. Create a docker-compose file with 'otel-collector' and 'node-exporter' service entries, like [this example](https://github.com/balena-io-experimental/otel-device-prom-collector/blob/master/docs/example).
+  2. Create a docker-compose file with 'otel-collector' and 'node-exporter' service entries, like [this example](https://github.com/balena-io-experimental/otel-collector-device-prom/blob/master/docs/example).
 
   3. Create a fleet in balenaCloud dashboard, and push the service composition to it.
 
   4. Set fleet variables for the 'otel-collector' service for the Prometheus remote write URL, username, and password used by the integration.
 
 
-  See the project [README](https://github.com/balena-io-experimental/otel-device-prom-collector#readme) for specifics.
+  See the project [README](https://github.com/balena-io-experimental/otel-collector-device-prom#readme) for specifics.
 assets:
   repository:
     type: blob.asset
     data:
-      url: 'https://github.com/balena-io-experimental/otel-device-prom-collector'
+      url: 'https://github.com/balena-io-experimental/otel-collector-device-prom'
   logo:
     type: blob.asset
     data:
       url: >-
-        https://raw.githubusercontent.com/balena-io-experimental/otel-device-prom-collector/master/logo.png
+        https://raw.githubusercontent.com/balena-io-experimental/otel-collector-device-prom/master/logo.png
 data:
   defaultDeviceType: raspberrypi4-64
   supportedDeviceTypes:
