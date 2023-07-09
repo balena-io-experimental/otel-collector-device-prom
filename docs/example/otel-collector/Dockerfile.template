@@ -1,1 +1,1 @@
-FROM bh.cr/ken8/otel-device-prom-%%BALENA_ARCH%%
+FROM bh.cr/ken8/otel-collector-device-prom-%%BALENA_ARCH%%
