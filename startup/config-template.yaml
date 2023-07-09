@@ -23,6 +23,8 @@ receivers:
     collection_interval: 60s
     timeout: 20s
     api_version: 1.24
+    container_labels_to_metric_labels:
+      io.balena.service-name: container_service_name
 processors:
   batch:
 
