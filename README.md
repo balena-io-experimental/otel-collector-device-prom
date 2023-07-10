@@ -1,4 +1,4 @@
-OpenTelemetry [Collector](https://opentelemetry.io/docs/collector/) for device monitoring to a Prometheus backend, packaged as a [balenaBlock](https://docs.balena.io/learn/develop/blocks/#using-your-block-in-other-projects) per architecture ([aarch64](https://hub.balena.io/blocks/2068757/otel-collector-device-prom-aarch64), [amd64](https://hub.balena.io/blocks/2068764/otel-collector-device-prom-amd64), [armv7hf](https://hub.balena.io/blocks/2068759/otel-collector-device-prom-armv7hf)).
+OpenTelemetry [Collector](https://opentelemetry.io/docs/collector/) for device monitoring to a Prometheus backend, packaged as a [balenaBlock](https://docs.balena.io/learn/develop/blocks/#using-your-block-in-other-projects) per architecture ([aarch64](https://hub.balena.io/blocks/2068757/otel-collector-device-prom-aarch64), [amd64](https://hub.balena.io/blocks/2068764/otel-collector-device-prom-amd64), [armv7hf](https://hub.balena.io/blocks/2068759/otel-collector-device-prom-armv7hf)). Requires 110 MB disk space and 40 MB memory.
 
 ![Node overview](docs/node-overview.png)
 
