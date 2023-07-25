@@ -11,13 +11,11 @@ receivers:
         scrape_interval: 60s
         static_configs:
         - targets: ['localhost:9100']
+        # Required for dashboards in Grafana Cloud
         relabel_configs:
         - source_labels: [ instance ]
-          replacement: '${HOSTNAME}'
+          replacement: '${env:HOSTNAME}'
           target_label: instance
-        - source_labels: [ instance ]
-          target_label: 'agent_hostname'
-          replacement: '${HOSTNAME}'
   docker_stats:
     endpoint: unix:///var/run/balena-engine.sock
     collection_interval: 60s
@@ -25,19 +23,42 @@ receivers:
     api_version: 1.24
     container_labels_to_metric_labels:
       io.balena.service-name: container_service_name
+    env_vars_to_metric_labels:
+      # Required for resource processor to generate 'container_device_short_uuid'
+      BALENA_DEVICE_UUID: container_device_uuid
 processors:
   batch:
+  resource/docker:
+    attributes:
+      # Create short UUID for containers that do not have access to device hostname
+      - key: "container_device_uuid"
+        pattern: "^(?P<container_device_short_uuid>.{0,7}).*"
+        action: extract
+      # Create short UUID for balena Supervisor, which does not generate 'container_device_uuid'
+      # because it does not define BALENA_DEVICE_UUID.
+      - key: "container_device_short_uuid"
+        action: insert
+        value: ${env:HOSTNAME}
 
 exporters:
   prometheusremotewrite:
-    endpoint: https://${PROMETHEUS_USER}:${PROMETHEUS_PASSWORD}@${PROMETHEUS_URL}
-    # required for docker_stats
+    endpoint: https://${env:PROMETHEUS_USER}:${env:PROMETHEUS_PASSWORD}@${env:PROMETHEUS_URL}
+    # Required for docker_stats
     resource_to_telemetry_conversion: 
       enabled: true
 
 service:
   pipelines:
-    metrics:
-      receivers: [prometheus, docker_stats]
+    metrics/prom:
+      receivers: [prometheus]
       processors: [batch]
       exporters: [prometheusremotewrite]
+    metrics/dock:
+      receivers: [docker_stats]
+      processors: [batch, resource/docker]
+      exporters: [prometheusremotewrite]
+
+# Enable as needed
+#  telemetry:
+#    logs:
+#      level: "debug"

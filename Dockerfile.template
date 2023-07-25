@@ -23,11 +23,9 @@ FROM busybox:stable
 WORKDIR /app
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=builder /app/_build/otelcol /app
+COPY startup/config-template.yaml /app/config.yaml
 
-# First performs some required variable substitutions.
-COPY startup/config-template.yaml /app
-COPY startup/run.sh /app
-RUN chmod a+x run.sh
-CMD [ "/bin/ash", "run.sh" ]
+ENTRYPOINT ["/app/otelcol"]
+CMD ["--config", "/app/config.yaml"]
 EXPOSE 4317 55678 55679
 

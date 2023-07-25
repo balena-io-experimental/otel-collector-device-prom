@@ -21,7 +21,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "10.0.2-cloud.1.94a6f396"
+      "version": "10.0.3-cloud.3.cec3ab0e"
     },
     {
       "type": "datasource",
@@ -182,14 +182,14 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "10.0.2-cloud.1.94a6f396",
+      "pluginVersion": "10.0.3-cloud.3.cec3ab0e",
       "targets": [
         {
           "datasource": {
             "uid": "$prometheus_datasource"
           },
           "editorMode": "code",
-          "expr": "sum (rate(container_cpu_percent{container_hostname=~\"$instance\", container_service_name=~\"$service\"}[$__rate_interval]))",
+          "expr": "sum (rate(container_cpu_percent{container_device_short_uuid=~\"$instance\", container_service_name=~\"$service\"}[$__rate_interval]))",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -266,14 +266,14 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "10.0.2-cloud.1.94a6f396",
+      "pluginVersion": "10.0.3-cloud.3.cec3ab0e",
       "targets": [
         {
           "datasource": {
             "uid": "$prometheus_datasource"
           },
           "editorMode": "code",
-          "expr": "sum(container_memory_usage_total{container_hostname=~\"$instance\", container_service_name=~\"$service\"}) / avg(node_memory_MemTotal_bytes{instance=~\"$instance\"})",
+          "expr": "sum(container_memory_usage_total{container_device_short_uuid=~\"$instance\", container_service_name=~\"$service\"}) / avg(node_memory_MemTotal_bytes{instance=~\"$instance\"})",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -350,14 +350,14 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "10.0.2-cloud.1.94a6f396",
+      "pluginVersion": "10.0.3-cloud.3.cec3ab0e",
       "targets": [
         {
           "datasource": {
             "uid": "$prometheus_datasource"
           },
           "editorMode": "code",
-          "expr": "sum(container_memory_usage_limit{container_hostname=~\"$instance\", container_service_name=~\"$service\"}) / avg(node_memory_MemTotal_bytes{ instance=~\"$instance\"})",
+          "expr": "sum(container_memory_usage_limit{container_device_short_uuid=~\"$instance\", container_service_name=~\"$service\"}) / avg(node_memory_MemTotal_bytes{ instance=~\"$instance\"})",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -484,7 +484,7 @@
             "uid": "$prometheus_datasource"
           },
           "editorMode": "code",
-          "expr": "avg by (container_service_name) (rate(container_cpu_percent{container_hostname=~\"$instance\", container_service_name=~\"$service\"}[$__rate_interval]))",
+          "expr": "avg by (container_service_name) (rate(container_cpu_percent{container_device_short_uuid=~\"$instance\", container_service_name=~\"$service\"}[$__rate_interval]))",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{container_service_name}}",
@@ -583,7 +583,7 @@
             "uid": "$prometheus_datasource"
           },
           "editorMode": "code",
-          "expr": "sum by (container_service_name) (container_memory_usage_total{container_hostname=~\"$instance\", container_service_name=~\"$service\"})",
+          "expr": "sum by (container_service_name) (container_memory_usage_total{container_device_short_uuid=~\"$instance\", container_service_name=~\"$service\"})",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{container_service_name}}",
@@ -707,7 +707,7 @@
             "uid": "$prometheus_datasource"
           },
           "editorMode": "code",
-          "expr": "rate(container_blockio_io_service_bytes_recursive{container_hostname=~\"$instance\", container_service_name=~\"$service\", operation=\"read\"}[$__rate_interval])",
+          "expr": "rate(container_blockio_io_service_bytes_recursive{container_device_short_uuid=~\"$instance\", container_service_name=~\"$service\", operation=\"read\"}[$__rate_interval])",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{container_service_name}} read",
@@ -721,7 +721,7 @@
             "uid": "$prometheus_datasource"
           },
           "editorMode": "code",
-          "expr": "rate(container_blockio_io_service_bytes_recursive{container_hostname=~\"$instance\", container_service_name=~\"$service\", operation=\"write\"}[$__rate_interval])",
+          "expr": "rate(container_blockio_io_service_bytes_recursive{container_device_short_uuid=~\"$instance\", container_service_name=~\"$service\", operation=\"write\"}[$__rate_interval])",
           "hide": false,
           "instant": false,
           "legendFormat": "{{container_service_name}} write",
@@ -831,7 +831,7 @@
             "uid": "$prometheus_datasource"
           },
           "editorMode": "code",
-          "expr": "sum by (container_service_name) (rate(container_network_receive_bytes_total{container_hostname=~\"$instance\", container_service_name=~\"$service\"}[$__rate_interval]))",
+          "expr": "sum by (container_service_name) (rate(container_network_io_usage_rx_bytes{container_device_short_uuid=~\"$instance\", container_service_name=~\"$service\"}[$__rate_interval]))",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{container_service_name}} rx",
@@ -844,7 +844,7 @@
             "uid": "$prometheus_datasource"
           },
           "editorMode": "code",
-          "expr": "sum by (container_service_name) (rate(container_network_transmit_bytes_total{container_hostname=~\"$instance\", container_service_name=~\"$service\"}[$__rate_interval]))",
+          "expr": "sum by (container_service_name) (rate(container_network_io_usage_tx_bytes{container_device_short_uuid=~\"$instance\", container_service_name=~\"$service\"}[$__rate_interval]))",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{container_service_name}} tx",
@@ -891,7 +891,7 @@
           "type": "prometheus",
           "uid": "$prometheus_datasource"
         },
-        "definition": "label_values(container_hostname)",
+        "definition": "label_values(container_device_short_uuid)",
         "hide": 0,
         "includeAll": true,
         "label": "Instance",
@@ -899,7 +899,7 @@
         "name": "instance",
         "options": [],
         "query": {
-          "query": "label_values(container_hostname)",
+          "query": "label_values(container_device_short_uuid)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 2,
@@ -938,7 +938,7 @@
     ]
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {
@@ -967,8 +967,8 @@
     ]
   },
   "timezone": "default",
-  "title": "App Services2",
+  "title": "App Services",
   "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-  "version": 6,
+  "version": 10,
   "weekStart": ""
 }
