@@ -20,7 +20,7 @@ Finally, set fleet [variables](https://docs.balena.io/learn/manage/variables/#fl
 | PROMETHEUS_PASSWORD | An API key you must create |
 
 
-With this setup in place, you now can add devices to your fleet. They will start to send metrics data to Grafana Cloud, which you may view in the fleet overview dashboard, like below.
+With this setup in place, you now can add devices to your fleet. They will start to send metrics data to Grafana Cloud, which you may view in the fleet overview dashboard, like below. Clicking on an item in the Instance column displays the Node Overview dashboard, like at the top of this document.
 
 ![Fleet overview](docs/fleet-overview.png)
 
