@@ -1,8 +1,8 @@
 {
   "__inputs": [
     {
-      "name": "DS_GRAFANACLOUD-XXXXXXX-PROM",
-      "label": "grafanacloud-xxxxxxx-prom",
+      "name": "",
+      "label": "",
       "description": "",
       "type": "datasource",
       "pluginId": "prometheus",
@@ -21,7 +21,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "10.0.3-cloud.3.cec3ab0e"
+      "version": "10.0.3-cloud.4.aed62623"
     },
     {
       "type": "datasource",
@@ -182,7 +182,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "10.0.3-cloud.3.cec3ab0e",
+      "pluginVersion": "10.0.3-cloud.4.aed62623",
       "targets": [
         {
           "datasource": {
@@ -266,7 +266,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "10.0.3-cloud.3.cec3ab0e",
+      "pluginVersion": "10.0.3-cloud.4.aed62623",
       "targets": [
         {
           "datasource": {
@@ -350,7 +350,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "10.0.3-cloud.3.cec3ab0e",
+      "pluginVersion": "10.0.3-cloud.4.aed62623",
       "targets": [
         {
           "datasource": {
@@ -860,9 +860,7 @@
   "refresh": "30s",
   "schemaVersion": 38,
   "style": "dark",
-  "tags": [
-    "linux-node-integration"
-  ],
+  "tags": [],
   "templating": {
     "list": [
       {
@@ -915,7 +913,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_GRAFANACLOUD-XXXXXXX-PROM}"
+          "uid": "${DS_GRAFANACLOUD-KEN9143-PROM}"
         },
         "definition": "label_values(container_service_name)",
         "description": "balena Service for container",
@@ -968,7 +966,7 @@
   },
   "timezone": "default",
   "title": "App Services",
-  "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-  "version": 10,
+  "uid": "d61045bb-c92c-4288-9a77-29e397acfa86",
+  "version": 1,
   "weekStart": ""
 }

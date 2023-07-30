@@ -12,7 +12,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "10.0.3-cloud.3.cec3ab0e"
+      "version": "10.0.3-cloud.4.aed62623"
     },
     {
       "type": "datasource",
@@ -173,7 +173,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "10.0.3-cloud.3.cec3ab0e",
+      "pluginVersion": "10.0.3-cloud.4.aed62623",
       "targets": [
         {
           "datasource": {
@@ -257,7 +257,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "10.0.3-cloud.3.cec3ab0e",
+      "pluginVersion": "10.0.3-cloud.4.aed62623",
       "targets": [
         {
           "datasource": {
@@ -341,7 +341,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "10.0.3-cloud.3.cec3ab0e",
+      "pluginVersion": "10.0.3-cloud.4.aed62623",
       "targets": [
         {
           "datasource": {
@@ -585,275 +585,12 @@
       ],
       "title": "Memory",
       "type": "timeseries"
-    },
-    {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 16
-      },
-      "id": 15,
-      "panels": [],
-      "title": "Disk/Network",
-      "type": "row"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "$prometheus_datasource"
-      },
-      "description": "Disk read/write rate in bytes/sec.",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 100,
-            "gradientMode": "opacity",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 0,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "normal"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "binBps"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byRegexp",
-              "options": "/.*tx/"
-            },
-            "properties": [
-              {
-                "id": "custom.transform",
-                "value": "negative-Y"
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 17
-      },
-      "id": 14,
-      "links": [],
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "10.0.2-cloud.1.94a6f396",
-      "targets": [
-        {
-          "datasource": {
-            "uid": "$prometheus_datasource"
-          },
-          "editorMode": "code",
-          "expr": "rate(container_blockio_io_service_bytes_recursive{container_device_short_uuid=~\"$instance\", container_name=~\"$container\", operation=\"read\"}[$__rate_interval])",
-          "format": "time_series",
-          "intervalFactor": 2,
-          "legendFormat": "{{container_name}} read",
-          "range": true,
-          "refId": "A",
-          "step": 10
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "$prometheus_datasource"
-          },
-          "editorMode": "code",
-          "expr": "rate(container_blockio_io_service_bytes_recursive{container_device_short_uuid=~\"$instance\", container_name=~\"$container\", operation=\"write\"}[$__rate_interval])",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "{{container_name}} write",
-          "range": true,
-          "refId": "B"
-        }
-      ],
-      "title": "Disk I/O",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "$prometheus_datasource"
-      },
-      "description": "Cumulative count of bytes transmitted.",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 100,
-            "gradientMode": "opacity",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 0,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "normal"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "binBps"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byRegexp",
-              "options": "/.*tx/"
-            },
-            "properties": [
-              {
-                "id": "custom.transform",
-                "value": "negative-Y"
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 17
-      },
-      "id": 12,
-      "links": [],
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "10.0.2-cloud.1.94a6f396",
-      "targets": [
-        {
-          "datasource": {
-            "uid": "$prometheus_datasource"
-          },
-          "editorMode": "code",
-          "expr": "sum by (container_name) (rate(container_network_io_usage_rx_bytes{container_device_short_uuid=~\"$instance\", container_name=~\"$container\"}[$__rate_interval]))",
-          "format": "time_series",
-          "intervalFactor": 2,
-          "legendFormat": "{{container_name}} rx",
-          "range": true,
-          "refId": "A",
-          "step": 10
-        },
-        {
-          "datasource": {
-            "uid": "$prometheus_datasource"
-          },
-          "editorMode": "code",
-          "expr": "sum by (container_name) (rate(container_network_io_usage_tx_bytes{container_device_short_uuid=~\"$instance\", container_name=~\"$container\"}[$__rate_interval]))",
-          "format": "time_series",
-          "intervalFactor": 2,
-          "legendFormat": "{{container_name}} tx",
-          "range": true,
-          "refId": "B",
-          "step": 10
-        }
-      ],
-      "title": "Nework Traffic",
-      "type": "timeseries"
     }
   ],
   "refresh": "30s",
   "schemaVersion": 38,
   "style": "dark",
-  "tags": [
-    "linux-node-integration"
-  ],
+  "tags": [],
   "templating": {
     "list": [
       {
@@ -932,7 +669,7 @@
     ]
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {
@@ -962,7 +699,7 @@
   },
   "timezone": "default",
   "title": "Containers",
-  "uid": "xxxxxx-xxxxxxxx-xxxxx",
-  "version": 37,
+  "uid": "b241ce7e-37a1-436e-9e0b-af98a27e416b",
+  "version": 2,
   "weekStart": ""
 }

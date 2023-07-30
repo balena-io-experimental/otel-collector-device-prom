@@ -7,7 +7,7 @@ post-provisioning: >-
 
   ## Getting Started
 
-  1. Create an account at [Grafana Cloud](https://grafana.com/products/cloud/), and set up a Linux Server integration.
+  1. If you don't already have a Prometheus backend setup, create an account at [Grafana Cloud](https://grafana.com/products/cloud/), and set up a Linux Server integration.
 
   2. Create a docker-compose file with 'otel-collector' and 'node-exporter' service entries, like [this example](https://github.com/balena-io-experimental/otel-collector-device-prom/blob/master/docs/example).
 
@@ -35,4 +35,4 @@ data:
     - raspberrypi3
     - genericx86-64-ext
     - intel-nuc
-version: 0.1.2
+version: 0.1.3
