@@ -23,7 +23,7 @@ FROM busybox:stable
 WORKDIR /app
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=builder /app/_build/otelcol /app
-COPY startup/config-template.yaml /app/config.yaml
+COPY startup/config.yaml /app/config.yaml
 
 ENTRYPOINT ["/app/otelcol"]
 CMD ["--config", "/app/config.yaml"]
