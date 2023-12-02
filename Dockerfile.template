@@ -17,6 +17,11 @@ RUN cp /app/opentelemetry-collector-0.80.0/bin/`./echo-ocb-archfile.sh %%BALENA_
 COPY builder/manifest.yaml manifest.yaml
 RUN ./ocb --config manifest.yaml
 
+# journald exporter requires journalctl binary
+FROM balenalib/%%BALENA_ARCH%%-ubuntu-golang:latest as journal
+RUN apt-get update && apt-get install -y --no-install-recommends systemd
+COPY startup/setup-journal.sh /
+RUN /setup-journal.sh
 
 # Run the collector
 FROM busybox:stable
@@ -24,6 +29,7 @@ WORKDIR /app
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=builder /app/_build/otelcol /app
 COPY startup/config.yaml /app/config.yaml
+COPY --from=journal /sysroot /
 
 ENTRYPOINT ["/app/otelcol"]
 CMD ["--config", "/app/config.yaml"]

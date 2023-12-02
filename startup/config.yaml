@@ -26,6 +26,13 @@ receivers:
     env_vars_to_metric_labels:
       # Required for resource processor to generate 'container_device_short_uuid'
       BALENA_DEVICE_UUID: container_device_uuid
+  journald:
+    directory: /run/log/journal
+    units:
+      - balena
+      - openvpn
+    priority: debug
+
 processors:
   batch:
   resource/docker:
@@ -46,6 +53,8 @@ exporters:
     # Required for docker_stats
     resource_to_telemetry_conversion: 
       enabled: true
+  loki:
+    endpoint: https://${env:LOKI_USER}:${env:PROMETHEUS_PASSWORD}@${env:LOKI_URL}
 
 service:
   pipelines:
@@ -57,6 +66,10 @@ service:
       receivers: [docker_stats]
       processors: [batch, resource/docker]
       exporters: [prometheusremotewrite]
+    logs:
+      receivers: [journald]
+      processors: [batch]
+      exporters: [loki]
 
 # Enable as needed
 #  telemetry:
