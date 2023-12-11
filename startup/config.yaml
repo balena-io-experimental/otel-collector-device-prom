@@ -20,7 +20,7 @@ receivers:
     endpoint: unix:///var/run/balena-engine.sock
     collection_interval: 60s
     timeout: 20s
-    api_version: 1.24
+    api_version: 1.25
     container_labels_to_metric_labels:
       io.balena.service-name: container_service_name
     env_vars_to_metric_labels:
@@ -28,6 +28,7 @@ receivers:
       BALENA_DEVICE_UUID: container_device_uuid
   journald:
     directory: /run/log/journal
+    # units are not required
     units:
       - balena
       - openvpn
