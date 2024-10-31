@@ -1,8 +1,8 @@
 {
   "__inputs": [
     {
-      "name": "",
-      "label": "",
+      "name": "DS_PROM",
+      "label": "ds-prom",
       "description": "",
       "type": "datasource",
       "pluginId": "prometheus",
@@ -21,7 +21,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "10.0.3-cloud.4.aed62623"
+      "version": "11.4.0-78029"
     },
     {
       "type": "datasource",
@@ -68,7 +68,7 @@
       "title": "Back to Node Overview",
       "tooltip": "",
       "type": "link",
-      "url": "d/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      "url": "d/fa49a4706d07a042595b664c87fb33ea"
     },
     {
       "asDropdown": true,
@@ -76,24 +76,19 @@
       "includeVars": true,
       "keepTime": true,
       "tags": [
+        "docker-balena",
         "linux-node-integration"
       ],
       "targetBlank": false,
-      "title": "Other Node Dashboards",
+      "title": "Docker Dashboards",
       "tooltip": "",
       "type": "dashboards",
       "url": ""
     }
   ],
-  "liveNow": false,
   "panels": [
     {
-      "collapse": false,
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "grafanacloud-prom"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -102,18 +97,7 @@
       },
       "id": 2,
       "panels": [],
-      "showTitle": true,
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "grafanacloud-prom"
-          },
-          "refId": "A"
-        }
-      ],
       "title": "Overview",
-      "titleSize": "h6",
       "type": "row"
     },
     {
@@ -168,9 +152,10 @@
         "y": 1
       },
       "id": 5,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
@@ -180,16 +165,18 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "sizing": "auto"
       },
-      "pluginVersion": "10.0.3-cloud.4.aed62623",
+      "pluginVersion": "11.4.0-78029",
       "targets": [
         {
           "datasource": {
-            "uid": "$prometheus_datasource"
+            "type": "prometheus",
+            "uid": "${DS_PROM}"
           },
           "editorMode": "code",
-          "expr": "sum (rate(container_cpu_percent{container_device_short_uuid=~\"$instance\", container_service_name=~\"$service\"}[$__rate_interval]))",
+          "expr": "sum (rate(container_cpu_utilization_ratio{container_device_short_uuid=~\"$instance\", container_service_name=~\"$service\"}[$__rate_interval]))",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -252,9 +239,10 @@
         "y": 1
       },
       "id": 7,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
@@ -264,16 +252,18 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "sizing": "auto"
       },
-      "pluginVersion": "10.0.3-cloud.4.aed62623",
+      "pluginVersion": "11.4.0-78029",
       "targets": [
         {
           "datasource": {
-            "uid": "$prometheus_datasource"
+            "type": "prometheus",
+            "uid": "${DS_PROM}"
           },
           "editorMode": "code",
-          "expr": "sum(container_memory_usage_total{container_device_short_uuid=~\"$instance\", container_service_name=~\"$service\"}) / avg(node_memory_MemTotal_bytes{instance=~\"$instance\"})",
+          "expr": "sum(container_memory_usage_total_bytes{container_device_short_uuid=~\"$instance\", container_service_name=~\"$service\"}) / avg(node_memory_MemTotal_bytes{instance=~\"$instance\"})",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -285,96 +275,7 @@
       "type": "gauge"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "$prometheus_datasource"
-      },
-      "description": "Memory reserved by the containers on the machine.",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [
-            {
-              "options": {
-                "match": "null",
-                "result": {
-                  "text": "N/A"
-                }
-              },
-              "type": "special"
-            }
-          ],
-          "max": 1,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "#299c46",
-                "value": null
-              },
-              {
-                "color": "rgba(237, 129, 40, 0.89)",
-                "value": 0.8
-              },
-              {
-                "color": "#d44a3a",
-                "value": 0.9
-              }
-            ]
-          },
-          "unit": "percentunit"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 4,
-        "x": 8,
-        "y": 1
-      },
-      "id": 6,
-      "links": [],
-      "maxDataPoints": 100,
-      "options": {
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
-      },
-      "pluginVersion": "10.0.3-cloud.4.aed62623",
-      "targets": [
-        {
-          "datasource": {
-            "uid": "$prometheus_datasource"
-          },
-          "editorMode": "code",
-          "expr": "sum(container_memory_usage_limit{container_device_short_uuid=~\"$instance\", container_service_name=~\"$service\"}) / avg(node_memory_MemTotal_bytes{ instance=~\"$instance\"})",
-          "format": "time_series",
-          "intervalFactor": 2,
-          "legendFormat": "",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Memory Reserved by Services",
-      "type": "gauge"
-    },
-    {
-      "collapse": false,
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "grafanacloud-prom"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -383,18 +284,7 @@
       },
       "id": 8,
       "panels": [],
-      "showTitle": true,
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "grafanacloud-prom"
-          },
-          "refId": "A"
-        }
-      ],
       "title": "Compute",
-      "titleSize": "h6",
       "type": "row"
     },
     {
@@ -409,11 +299,13 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 100,
             "gradientMode": "opacity",
@@ -422,6 +314,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 0,
             "pointSize": 5,
@@ -464,7 +357,6 @@
         "y": 8
       },
       "id": 9,
-      "links": [],
       "options": {
         "legend": {
           "calcs": [],
@@ -477,14 +369,15 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "10.0.2-cloud.1.94a6f396",
+      "pluginVersion": "11.4.0-78029",
       "targets": [
         {
           "datasource": {
-            "uid": "$prometheus_datasource"
+            "type": "prometheus",
+            "uid": "${DS_PROM}"
           },
           "editorMode": "code",
-          "expr": "avg by (container_service_name) (rate(container_cpu_percent{container_device_short_uuid=~\"$instance\", container_service_name=~\"$service\"}[$__rate_interval]))",
+          "expr": "avg by (container_service_name) (rate(container_cpu_utilization_ratio{container_device_short_uuid=~\"$instance\", container_service_name=~\"$service\"}[$__rate_interval]))",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{container_service_name}}",
@@ -508,11 +401,13 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 100,
             "gradientMode": "opacity",
@@ -521,6 +416,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 0,
             "pointSize": 5,
@@ -563,7 +459,6 @@
         "y": 8
       },
       "id": 10,
-      "links": [],
       "options": {
         "legend": {
           "calcs": [],
@@ -576,14 +471,15 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "10.0.2-cloud.1.94a6f396",
+      "pluginVersion": "11.4.0-78029",
       "targets": [
         {
           "datasource": {
-            "uid": "$prometheus_datasource"
+            "type": "prometheus",
+            "uid": "${DS_PROM}"
           },
           "editorMode": "code",
-          "expr": "sum by (container_service_name) (container_memory_usage_total{container_device_short_uuid=~\"$instance\", container_service_name=~\"$service\"})",
+          "expr": "sum by (container_service_name) (container_memory_usage_total_bytes{container_device_short_uuid=~\"$instance\", container_service_name=~\"$service\"})",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{container_service_name}}",
@@ -620,11 +516,13 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 100,
             "gradientMode": "opacity",
@@ -633,6 +531,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 0,
             "pointSize": 5,
@@ -687,7 +586,6 @@
         "y": 17
       },
       "id": 14,
-      "links": [],
       "options": {
         "legend": {
           "calcs": [],
@@ -700,11 +598,12 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "10.0.2-cloud.1.94a6f396",
+      "pluginVersion": "11.4.0-78029",
       "targets": [
         {
           "datasource": {
-            "uid": "$prometheus_datasource"
+            "type": "prometheus",
+            "uid": "${DS_PROM}"
           },
           "editorMode": "code",
           "expr": "rate(container_blockio_io_service_bytes_recursive{container_device_short_uuid=~\"$instance\", container_service_name=~\"$service\", operation=\"read\"}[$__rate_interval])",
@@ -735,7 +634,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "$prometheus_datasource"
+        "uid": "${DS_PROM}"
       },
       "description": "Cumulative count of bytes transmitted.",
       "fieldConfig": {
@@ -744,11 +643,13 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 100,
             "gradientMode": "opacity",
@@ -757,6 +658,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 0,
             "pointSize": 5,
@@ -811,7 +713,6 @@
         "y": 17
       },
       "id": 12,
-      "links": [],
       "options": {
         "legend": {
           "calcs": [],
@@ -824,7 +725,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "10.0.2-cloud.1.94a6f396",
+      "pluginVersion": "11.4.0-78029",
       "targets": [
         {
           "datasource": {
@@ -841,7 +742,8 @@
         },
         {
           "datasource": {
-            "uid": "$prometheus_datasource"
+            "type": "prometheus",
+            "uid": "${DS_PROM}"
           },
           "editorMode": "code",
           "expr": "sum by (container_service_name) (rate(container_network_io_usage_tx_bytes{container_device_short_uuid=~\"$instance\", container_service_name=~\"$service\"}[$__rate_interval]))",
@@ -853,33 +755,27 @@
           "step": 10
         }
       ],
-      "title": "Nework Traffic",
+      "title": "Network Traffic",
       "type": "timeseries"
     }
   ],
   "refresh": "30s",
-  "schemaVersion": 38,
-  "style": "dark",
-  "tags": [],
+  "schemaVersion": 40,
+  "tags": [
+    "docker-balena",
+    "linux-node-integration"
+  ],
   "templating": {
     "list": [
       {
-        "current": {
-          "selected": false,
-          "text": "default",
-          "value": "default"
-        },
-        "hide": 0,
+        "current": {},
         "includeAll": false,
         "label": "Data Source",
-        "multi": false,
         "name": "prometheus_datasource",
         "options": [],
         "query": "prometheus",
-        "queryValue": "",
         "refresh": 1,
         "regex": "(?!grafanacloud-usage|grafanacloud-ml-metrics).+",
-        "skipUrlSync": false,
         "type": "datasource"
       },
       {
@@ -890,7 +786,6 @@
           "uid": "$prometheus_datasource"
         },
         "definition": "label_values(container_device_short_uuid)",
-        "hide": 0,
         "includeAll": true,
         "label": "Instance",
         "multi": true,
@@ -902,22 +797,17 @@
         },
         "refresh": 2,
         "regex": "",
-        "skipUrlSync": false,
         "sort": 1,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
+        "type": "query"
       },
       {
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_GRAFANACLOUD-KEN9143-PROM}"
+          "uid": "${DS_PROM}"
         },
         "definition": "label_values(container_service_name)",
         "description": "balena Service for container",
-        "hide": 0,
         "includeAll": true,
         "label": "Service",
         "multi": true,
@@ -929,44 +819,19 @@
         },
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
         "sort": 1,
         "type": "query"
       }
     ]
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-1h",
     "to": "now"
   },
-  "timepicker": {
-    "refresh_intervals": [
-      "5s",
-      "10s",
-      "30s",
-      "1m",
-      "5m",
-      "15m",
-      "30m",
-      "1h",
-      "2h",
-      "1d"
-    ],
-    "time_options": [
-      "5m",
-      "15m",
-      "1h",
-      "6h",
-      "12h",
-      "24h",
-      "2d",
-      "7d",
-      "30d"
-    ]
-  },
-  "timezone": "default",
+  "timepicker": {},
+  "timezone": "utc",
   "title": "App Services",
-  "uid": "d61045bb-c92c-4288-9a77-29e397acfa86",
-  "version": 1,
+  "uid": "docker-app-services-kb2ma",
+  "version": 9,
   "weekStart": ""
 }

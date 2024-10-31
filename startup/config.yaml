@@ -20,7 +20,6 @@ receivers:
     endpoint: unix:///var/run/balena-engine.sock
     collection_interval: 60s
     timeout: 20s
-    api_version: 1.24
     container_labels_to_metric_labels:
       io.balena.service-name: container_service_name
     env_vars_to_metric_labels:
@@ -46,8 +45,12 @@ exporters:
     # Required for docker_stats
     resource_to_telemetry_conversion: 
       enabled: true
+  # Enable when need debug output sent to logs; also debug to a pipeline below.
+  #debug:
+  #  verbosity: normal
 
 service:
+  # Add "debug" as an exporter to send output to device logs.
   pipelines:
     metrics/prom:
       receivers: [prometheus]
@@ -58,7 +61,7 @@ service:
       processors: [batch, resource/docker]
       exporters: [prometheusremotewrite]
 
-# Enable as needed
+# Generic logging capability; not detailed
 #  telemetry:
 #    logs:
 #      level: "debug"

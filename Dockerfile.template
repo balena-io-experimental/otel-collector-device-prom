@@ -1,17 +1,15 @@
-FROM balenalib/%%BALENA_ARCH%%-ubuntu-golang:latest as builder
+# Use the current release in opentelemetry-collector-releases repo.
+FROM golang:1.23 AS builder
 
 # Build the otelcol builder -- the 'ocb' binary.
 WORKDIR /app
-RUN curl -LO https://github.com/open-telemetry/opentelemetry-collector/archive/refs/tags/v0.80.0.tar.gz
-RUN tar -zxvf v0.80.0.tar.gz
+RUN curl -LO https://github.com/open-telemetry/opentelemetry-collector-releases/archive/refs/tags/v0.112.0.tar.gz
+RUN tar -zxvf v0.112.0.tar.gz
 
-WORKDIR /app/opentelemetry-collector-0.80.0
+WORKDIR /app/opentelemetry-collector-releases-0.112.0
 RUN make ocb
 WORKDIR /app
-# Generates the arch-specific portion of generated OTel collector builder binary
-# filename so we can use a single template.
-COPY builder/echo-ocb-archfile.sh /app
-RUN cp /app/opentelemetry-collector-0.80.0/bin/`./echo-ocb-archfile.sh %%BALENA_ARCH%%` /app/ocb
+RUN mv /root/bin/ocb /app/ocb
 
 # Build the 'otelcol' collector binary with our custom manifest of receivers, exporters, etc.
 COPY builder/manifest.yaml manifest.yaml
