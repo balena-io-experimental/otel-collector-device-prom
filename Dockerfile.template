@@ -15,12 +15,19 @@ RUN mv /root/bin/ocb /app/ocb
 COPY builder/manifest.yaml manifest.yaml
 RUN ./ocb --config manifest.yaml
 
+# journald exporter requires journalctl binary
+FROM golang:1.23 AS journal
+RUN apt-get update && apt-get install -y --no-install-recommends systemd
+COPY startup/setup-journal.sh /
+RUN /setup-journal.sh
+
 
 # Run the collector
 FROM busybox:stable
 WORKDIR /app
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=builder /app/_build/otelcol /app
+COPY --from=journal /sysroot /
 COPY startup/config.yaml /app/config.yaml
 
 ENTRYPOINT ["/app/otelcol"]
