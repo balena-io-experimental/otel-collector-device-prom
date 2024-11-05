@@ -16,5 +16,6 @@ services:
     network_mode: host
     labels:
       io.balena.features.balena-socket: '1'
+      io.balena.features.journal-logs: '1'
       io.balena.features.procfs: '1'
       io.balena.features.sysfs: '1'

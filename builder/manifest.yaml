@@ -1,22 +1,42 @@
 dist:
-  module: github.com/open-telemetry/opentelemetry-collector-releases/core
   name: otelcol
-  description: OpenTelemetry Collector
-  version: 0.80.0
+  description: OpenTelemetry Collector for balena devices
+  version: 0.1.0
   output_path: ./_build
-  otelcol_version: 0.80.0
+  otelcol_version: 0.112.0
 
 receivers:
-  - gomod: github.com/open-telemetry/opentelemetry-collector-contrib/receiver/dockerstatsreceiver v0.80.0
-  - gomod: github.com/open-telemetry/opentelemetry-collector-contrib/receiver/prometheusreceiver v0.80.0
+  - gomod: github.com/open-telemetry/opentelemetry-collector-contrib/receiver/dockerstatsreceiver v0.112.0
+  - gomod: github.com/open-telemetry/opentelemetry-collector-contrib/receiver/prometheusreceiver v0.112.0
+  # Must base on the commit for PR #36005, which fixes byte array based log entries.
+  # https://github.com/open-telemetry/opentelemetry-collector-contrib/pull/36005
+  - gomod: github.com/open-telemetry/opentelemetry-collector-contrib/receiver/journaldreceiver v0.0.0-20241030130504-24e6ba0eb0b3
 
 exporters:
-  - gomod: github.com/open-telemetry/opentelemetry-collector-contrib/exporter/prometheusremotewriteexporter v0.80.0
+  - gomod: github.com/open-telemetry/opentelemetry-collector-contrib/exporter/prometheusremotewriteexporter v0.112.0
+  # Download error with v0.112.0 as of Nov. 2024.
+  - gomod: github.com/open-telemetry/opentelemetry-collector-contrib/exporter/lokiexporter v0.111.0
+  # For debug logging
+  - gomod: go.opentelemetry.io/collector/exporter/debugexporter v0.112.0
 
 extensions:
 
 processors:
-  - gomod: github.com/open-telemetry/opentelemetry-collector-contrib/processor/resourceprocessor v0.80.0
-  - gomod: go.opentelemetry.io/collector/processor/batchprocessor v0.80.0
+  - gomod: github.com/open-telemetry/opentelemetry-collector-contrib/processor/resourceprocessor v0.112.0
+  - gomod: go.opentelemetry.io/collector/processor/batchprocessor v0.112.0
+  - gomod: github.com/open-telemetry/opentelemetry-collector-contrib/processor/transformprocessor v0.112.0
+  - gomod: github.com/open-telemetry/opentelemetry-collector-contrib/processor/attributesprocessor v0.112.0
 
 connectors:
+
+providers:
+  # It should not be necessary to explicitly list this provider. However, there is
+  # a download error with v0.112.0 as of Oct. 2024.
+  - gomod: go.opentelemetry.io/collector/confmap/provider/envprovider v0.111.0
+  # Must explicitly list this provider to pass config.yaml to the collector at startup.
+  - gomod: go.opentelemetry.io/collector/confmap/provider/fileprovider v0.111.0
+
+replaces:
+  # Modified by journald receiver in PR #36005; see above.
+  # https://github.com/open-telemetry/opentelemetry-collector-contrib/pull/36005
+  - github.com/open-telemetry/opentelemetry-collector-contrib/pkg/stanza v0.112.0 => github.com/open-telemetry/opentelemetry-collector-contrib/pkg/stanza v0.0.0-20241030130504-24e6ba0eb0b3
