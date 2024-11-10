@@ -26,11 +26,18 @@ RUN /setup-journal.sh
 FROM busybox:stable
 WORKDIR /app
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
-COPY --from=builder /app/_build/otelcol /app
-COPY --from=journal /sysroot /
-COPY startup/config.yaml /app/config.yaml
+COPY --from=builder /app/_build/otelcol .
+# Workaround to copy individual directories. If attempt copy to root (/), get error
+# "cannot copy to non-directory:" on an amd64 local build via 'docker buildx build'.
+COPY --from=journal /sysroot/bin /bin
+COPY --from=journal /sysroot/lib /lib
+COPY --from=journal /sysroot/usr /usr
+COPY startup/*.yaml .
+COPY startup/*.sh .
+RUN chmod a+x *.sh
 
-ENTRYPOINT ["/app/otelcol"]
-CMD ["--config", "/app/config.yaml"]
+# Dynamically assemble OTel collector configuration based on environment
+# variables, and run it.
+ENTRYPOINT ["./run_from_env.sh"]
 EXPOSE 4317 55678 55679
 

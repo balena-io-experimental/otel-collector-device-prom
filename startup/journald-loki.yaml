@@ -1,0 +1,46 @@
+# Provides configuration for a journald frontend pushing data to a loki backend.
+#
+# Requires env variables:
+# * LOKI_USER -- ID for the user on the backend
+# * LOKI_URL -- URL for the Loki backend
+# * PROMETHEUS_PASSWORD -- API key for Prometheus
+receivers:
+  journald:
+    directory: /run/log/journal
+    # Balena messages are equivalent to the dashboard logs. If omit units,
+    # all logs are forwarded.
+    units:
+      - balena
+    priority: debug
+    # balena log messages often are stored as bytes due to the characters encoded
+    convert_message_bytes: true
+
+processors:
+  # Create an attribute for hostname so it may be promoted to a label, below.
+  # https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/exporter/lokiexporter/README.md#configuration-via-attribute-hints
+  # There may be an easier way to retrieve/use this value as a resource rather
+  # than an attribute.
+  # https://github.com/open-telemetry/opentelemetry-collector-contrib/issues/34808#issuecomment-2321185810
+  transform/log:
+    error_mode: ignore
+    log_statements:
+      - context: log
+        statements:
+          - set(attributes["hostname"], body["_HOSTNAME"])
+  # Next use the label hint to promote the attribute.
+  attributes/log:
+    actions:
+      - key: "loki.attribute.labels"
+        action: insert
+        value: hostname
+
+exporters:
+  loki:
+    endpoint: https://${env:LOKI_USER}:${env:PROMETHEUS_PASSWORD}@${env:LOKI_URL}/loki/api/v1/push
+
+service:
+  pipelines:
+    logs:
+      receivers: [journald]
+      processors: [batch, transform/log, attributes/log]
+      exporters: [loki]
