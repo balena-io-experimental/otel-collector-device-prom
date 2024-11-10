@@ -1,0 +1,13 @@
+# Provides a stub configuration for a journald frontend pushing data to a loki
+# backend. In other words, this configuration disables collection of journal
+# entries by passing an empty list of files.
+receivers:
+  journald:
+    files:
+
+processors:
+
+exporters:
+
+sevice:
+  pipelines:
