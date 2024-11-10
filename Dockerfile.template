@@ -32,8 +32,8 @@ COPY --from=builder /app/_build/otelcol .
 COPY --from=journal /sysroot/bin /bin
 COPY --from=journal /sysroot/lib /lib
 COPY --from=journal /sysroot/usr /usr
-COPY startup/*.yaml .
-COPY startup/*.sh .
+COPY startup/*.yaml ./
+COPY startup/*.sh ./
 RUN chmod a+x *.sh
 
 # Dynamically assemble OTel collector configuration based on environment
