@@ -11,6 +11,7 @@ receivers:
     # all logs are forwarded.
     units:
       - balena
+      - openvpn
     priority: debug
     # balena log messages often are stored as bytes due to the characters encoded
     convert_message_bytes: true
