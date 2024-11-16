@@ -27,12 +27,12 @@ With this setup in place, you now can add devices to your fleet. They will start
 ![Fleet overview](docs/fleet-overview.png)
 
 ## Container Metrics
-The collector also captures metrics for your application containers in balenaEngine. You can view these metrics in Grafana by importing a dashboard definition file in the `docs/dashboards` directory. The screenshot below is based on `containers.json`. See the Grafana [instructions](https://grafana.com/docs/grafana/latest/dashboards/manage-dashboards/#export-and-import-dashboards) for importing a dashboard.
+The collector also captures metrics for your application containers in balenaEngine. You can view these metrics in Grafana by importing a dashboard definition file in the `docs/dashboards` directory. The screenshot below is based on `containers.json`. See the Grafana [instructions](https://grafana.com/docs/grafana/latest/dashboards/build-dashboards/import-dashboards/) for importing a dashboard.
 
 ![Containers](docs/containers.png)
 
 ## Device Journal Logs
-The collector also captures journal logs for the device. The Linux Server integration already includes a Logs dashboard, but you need to update or replace it with the content of the dashboard definition in `docs/dashboard/node-logs.json`. The screenshot below is based on this file. Notice that by selecting a line in the Logs panel, the container that generated the log line diplays.
+The collector also captures journal logs for the device. The Linux Server integration already includes a Logs dashboard, but you should [import](https://grafana.com/docs/grafana/latest/dashboards/build-dashboards/import-dashboards/) the dashboard definition in `docs/dashboard/node-logs.json`. The screenshot below is based on this file. Notice that by selecting a line in the Logs panel, the container that generated the log line diplays.
 
 ![Logs](docs/logs.png)
 
